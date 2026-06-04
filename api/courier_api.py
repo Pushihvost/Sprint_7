@@ -28,3 +28,29 @@ class CourierApi:
         )
 
         return response, payload
+
+    @allure.step("Удаляем курьера")
+    def delete_courier_and_return_response(self, id_courier):
+        response = requests.delete(
+    f"{BASE_URL}/api/v1/courier/{id_courier}"
+)
+        return response
+    
+    @allure.step("Логин курьера")
+    def login_courier_and_return_id(self, payload):
+        
+        login_payload = {
+    "login": payload["login"],
+    "password": payload["password"]
+        }
+        
+        login_response = requests.post(
+            f"{BASE_URL}/api/v1/courier/login",
+            data=login_payload
+        )
+
+        login_body = login_response.json()
+
+        return login_body.get("id")
+
+
